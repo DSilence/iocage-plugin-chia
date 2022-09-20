@@ -5,7 +5,7 @@ chsh -s /usr/local/bin/bash
 
 # Clone our chia repo
 cd /root
-git clone  -b 1.2.8 https://github.com/Chia-Network/chia-blockchain.git
+git clone  -b 1.5.1 https://github.com/Chia-Network/chia-blockchain.git
 
 # Setup virtual environment
 cd chia-blockchain
