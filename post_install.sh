@@ -5,7 +5,7 @@ chsh -s /usr/local/bin/bash
 
 # Clone our chia repo
 cd /root
-git clone  -b 1.2.7 https://github.com/Chia-Network/chia-blockchain.git
+git clone  -b 1.2.8 https://github.com/Chia-Network/chia-blockchain.git
 
 # Setup virtual environment
 cd chia-blockchain
@@ -25,14 +25,14 @@ pip install git+https://github.com/Chia-Network/clvm@use_clvm_rs
 
 # Hack(s)!
 cd /root/chia-blockchain
-sed -i '' 's|elif platform == "linux":|elif platform == "linux" or platform.startswith("freebsd"):|g' chia/util/keychain.py
+sed -i '' 's|elif platform == "linux":|elif platform == "linux" or platform.startswith("freebsd"):|g' chia/util/keyring_wrapper.py
 sed -i '' 's|cryptography==3.4.7|cryptography==3.3.2|g' setup.py
 
 # Moar Hacks!
 portsnap --interactive fetch
 portsnap extract update
 cd /usr/ports/security/py-cryptography
-echo "DEFAULT_VERSIONS+=ssl=openssl python=3.8 python3=3.8" >> /etc/make.conf
+echo "DEFAULT_VERSIONS+=ssl=openssl python=3.9 python3=3.9" >> /etc/make.conf
 make BATCH=yes
 
 # Even mooaarr hacks!
@@ -42,8 +42,8 @@ if [ $? -ne 0 ] ; then
   exit 1
 fi
 
-echo "cp -R /usr/ports/security/py-cryptography/work-py38/stage/usr/local/lib/python3.8/site-packages/cryptography-3.3.2-py3.8.egg-info ${VIRTUAL_ENV}/lib/python3.8/site-packages/cryptography-3.3.2-py3.8.egg-info"
-cp -R /usr/ports/security/py-cryptography/work-py38/stage/usr/local/lib/python3.8/site-packages/cryptography-3.3.2-py3.8.egg-info ${VIRTUAL_ENV}/lib/python3.8/site-packages/cryptography-3.3.2-py3.8.egg-info
+echo "cp -R /usr/ports/security/py-cryptography/work-py39/stage/usr/local/lib/python3.9/site-packages/cryptography-3.3.2-py3.9.egg-info ${VIRTUAL_ENV}/lib/python3.9/site-packages/cryptography-3.3.2-py3.9.egg-info"
+cp -R /usr/ports/security/py-cryptography/work-py39/stage/usr/local/lib/python3.9/site-packages/cryptography-3.3.2-py3.9.egg-info ${VIRTUAL_ENV}/lib/python3.9/site-packages/cryptography-3.3.2-py3.9.egg-info
 if [ $? -ne 0 ] ; then
   exit 1
 fi
